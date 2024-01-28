@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>Jogo de Par ou Ímpar</title>
+</head>
+
+<body>
+  <h1>Jogo de Par ou Ímpar</h1>
+  <p>Insira um numero</p>
+  <input type="number" id="userNumber">
+  <p>Escolha par (0) ou ímpar (1):</p>
+  <input type="number" id="userChoice" min="0" max="1">
+  <button onclick="jogar2()">Jogar</button>
+  <p id="resultado"></p>
+  <p id="mensagem"></p>
+
+  <script>
+    function jogar() {
+      let userNumber = parseInt(document.getElementById('userNumber').value);
+      let userChoice = parseInt(document.getElementById('userChoice').value);
+
+      let jogada_computador = Math.floor(Math.random() * 2); // Gera 0 ou 1 aleatoriamente
+      let soma = userNumber + jogada_computador;
+      // let jogada_jogador = parseInt(document.getElementById('userChoice').value);
+      // let jogada_computador = Math.floor(Math.random() * 2); // Gera 0 ou 1 aleatoriamente
+      // let soma = jogada_jogador + jogada_computador;
+
+      let resultado = '';
+      if (soma % 2 === 0) {
+        resultado = 'Par';
+      } else {
+        resultado = 'Ímpar';
+      }
+
+      // const mensagemResultado = `Você escolheu ${jogada_jogador === 0 ? 'par' : 'ímpar'}, o computador escolheu ${jogada_computador === 0 ? 'par' : 'ímpar'}. A soma é ${resultado}.`;
+
+      // document.getElementById('resultado').textContent = mensagemResultado;
+
+      // if ((jogada_jogador === 0 && soma % 2 === 0) || (jogada_jogador === 1 && soma % 2 !== 0)) {
+      //     document.getElementById('mensagem').textContent = 'Você venceu meu consagrado, quer um pirulito?';
+      // } else {
+      //    document.getElementById('mensagem').textContent = 'Você perdeu mane. Tente novamente!';
+      // }
+
+      let mensagemResultado = `Você escolheu ${userNumber}, parâmetro ${userChoice === 0 ? 'par' : 'ímpar'}, o computador escolheu ${jogada_computador === 0 ? 'par' : 'ímpar'}. A soma é ${resultado}.`;
+      // let mensagemResultado = `Você escolheu ${userNumber}, `
+      // mensagemResultado += `parâmetro ${userChoice === 0 ? 'par' : 'ímpar'}, `;
+      // mensagemResultado += `o computador escolheu ${jogada_computador === 0 ? 'par' : 'ímpar'}. `;
+      // mensagemResultado += `A soma é ${resultado}.`;
+
+      document.getElementById('resultado').textContent = mensagemResultado;
+
+      if ((userChoice === 0 && soma % 2 === 0) || (userChoice === 1 && soma % 2 !== 0)) {
+        document.getElementById('mensagem').textContent = 'Você venceu meu consagrado, quer um pirulito?';
+      } else {
+        document.getElementById('mensagem').textContent = 'Você perdeu mane. Tente novamente!';
+      }
+
+      // document.getElementById('mensagem').textContent = ((userChoice === 0 && soma % 2 === 0) || (userChoice === 1 && soma % 2 !== 0)) ? `Você venceu meu consagrado, quer um pirulito?` : `Você perdeu mane. Tente novamente!`;
+    }
+
+    // let testao = ((Math.floor(Math.random() * 2) === 1) ? `ele e 1` : `ele e 0` ); // simples
+    // let testao = ((Math.floor(Math.random() * 2) === 1) ? (Math.floor(Math.random() * 2) % 2 === 0 ? `ele e par` : `ele nao e par` ) : `ele e 0` ); // duplo
+    // let testao = ((Math.floor(Math.random() * 2) === 1) ? ( Math.floor(Math.random() * 2) % 2 === 0 ? `ele e par` : `ele nao e par` ) : ( Math.floor(Math.random() * 2) % 2 !== 0 ? `ele e impar` : `ele nao e impar` ) ); // triplo
+    //let testao = ((Math.floor(Math.random() * 2) === 1) ? ( Math.floor(Math.random() * 2) % 2 === 0 ? ( Math.floor(Math.random() * 2) % 2 !== 0 ? `ele e impar` : `ele nao e impar` ) : `ele nao e par` ) : `nada` ); // triplo
+
+
+
+    function jogar2() {
+      let userNumber = parseInt(document.getElementById('userNumber').value);
+      let userChoice = parseInt(document.getElementById('userChoice').value);
+      let jogada_computador = Math.floor(Math.random() * 10000); 
+      let soma = userNumber + jogada_computador;
+      let resultado = (soma % 2 === 0) ? 'Par' : 'Ímpar';
+      let resultadoTexto = ``;
+
+      if (userChoice === 0) {
+        if(soma % 2 === 0) {
+          resultadoTexto = 'Você venceu meu consagrado, quer um pirulito?';
+        } else {
+          resultadoTexto = 'Você perdeu mane. Tente novamente!';
+        }
+      } else {
+        if(soma % 2 === 0) {
+          resultadoTexto = 'Você perdeu mane. Tente novamente!';
+        } else {
+          resultadoTexto = 'Você venceu meu consagrado, quer um pirulito?';
+        }
+      }
+      let mensagemResultado = `Você escolheu ${userNumber}, parâmetro ${userChoice === 0 ? 'par' : 'ímpar'}, o computador jogou ${jogada_computador}. A soma é ${soma} que e ${resultado}.`;
+      document.getElementById('resultado').textContent = mensagemResultado;
+      document.getElementById('mensagem').textContent = resultadoTexto;
+    }
+  </script>
+</body>
+
+</html>
