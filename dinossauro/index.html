@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <title>Dino Game</title>
+  <style>
+    html {
+      height: 100%;
+    }
+
+    body {
+      margin: 0;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-direction: column;
+      background-color: #f0f0f0;
+      height: 100%;
+    }
+
+    canvas {
+      border: 1px solid #000;
+      height: 250px;
+      width: 900px;
+    }
+  </style>
+</head>
+
+<body>
+  <!-- <canvas id="gameCanvas"></canvas> -->
+  <h1>Jogo do quadrado verde!</h1>
+  
+  <button onclick="setup()">recomeçar</button>
+  <script>
+    let canvas, ctx;
+    let dino, cactus;
+    let gravity = 1.5;
+    let jump = 25;
+    let isGameOver = false;
+    let obstacles = [];
+    let timeInterval = false;
+
+    function setup() {
+      clearInterval(timeInterval);
+      isGameOver = false;
+      obstacles = [];
+      
+      //excluir todos os canvas do html
+      const button = document.querySelector('button');
+      button.blur();
+      const canvases = document.querySelectorAll('canvas');
+      canvases.forEach(canvas => {
+        canvas.parentNode.removeChild(canvas);
+      });
+      canvas = document.createElement("canvas");
+      canvas.width = 600;
+      canvas.height = 150;
+      ctx = canvas.getContext("2d");
+      document.body.appendChild(canvas);
+
+      dino = new Dino();
+      cactus = new Cactus();
+      obstacles.push(new Cactus());
+
+      timeInterval = setInterval(draw, 1000 / 60);
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      dino.update();
+      dino.show();
+
+      if (!isGameOver) {
+        if (Math.random() < 0.01) {
+          obstacles.push(new Cactus());
+        }
+
+        for (let i = obstacles.length - 1; i >= 0; i--) {
+          obstacles[i].update();
+          obstacles[i].show();
+
+          if (obstacles[i].hits(dino)) {
+            isGameOver = true;
+          }
+
+          if (obstacles[i].offscreen()) {
+            obstacles.splice(i, 1);
+          }
+        }
+      } else {
+        ctx.font = "30px Arial";
+        ctx.fillText("Game Over!", canvas.width / 2 - 70, canvas.height / 2);
+      }
+    }
+
+    class Dino {
+      constructor() {
+        this.width = 35;
+        this.height = 40;
+        this.x = 50;
+        this.y = canvas.height - this.height;
+        this.velocityY = 0;
+        this.jumping = false;
+      }
+
+      show() {
+        ctx.fillStyle = "green";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+      }
+
+      update() {
+        this.y -= this.velocityY;
+        this.velocityY -= gravity;
+
+        if (this.y >= canvas.height - this.height) {
+          this.y = canvas.height - this.height;
+          this.velocityY = 0;
+          this.jumping = false;
+        }
+      }
+
+      jump() {
+        if (!this.jumping) {
+          this.velocityY = jump;
+          this.jumping = true;
+        }
+      }
+    }
+
+    class Cactus {
+      constructor() {
+        this.width = 20;
+        this.height = 40;
+        this.x = canvas.width;
+        this.y = canvas.height - this.height;
+        this.velocityX = 5;
+      }
+
+      show() {
+        ctx.fillStyle = "red";
+        ctx.fillRect(this.x, this.y, this.width, this.height);
+      }
+
+      update() {
+        this.x -= this.velocityX;
+      }
+
+      offscreen() {
+        return this.x + this.width < 0;
+      }
+
+      hits(dino) {
+        return (
+          dino.x < this.x + this.width &&
+          dino.x + dino.width > this.x &&
+          dino.y < this.y + this.height &&
+          dino.y + dino.height > this.y
+        );
+      }
+    }
+
+    setup();
+
+    document.addEventListener("keydown", function (event) {
+      if (event.code === "Space") {
+        dino.jump();
+      }
+    });
+  </script>
+</body>
+
+</html>
