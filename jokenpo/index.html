@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <button onclick="jogada_jogador(`pedra`)">PEDRA</button>
+    <button onclick="jogada_jogador(`papel`)">PAPEL</button>
+    <button onclick="jogada_jogador(`tesoura`)">TESOURA</button>
+    <div>
+        <div>sua jogada:<b id="jogador">0</b></div>
+        <div>computador jogada:<b id="computador">0</b></div>
+        <div>resultado:<b id="resultado">0</b></div>
+    </div>
+    <script>
+        console.log(`Inico do Jokenpo`);
+        function jogada_jogador(texto){
+            document.getElementById(`jogador`).innerText = texto
+            jogar(texto)
+        }
+        function jogada_computador1(texto){
+            document.getElementById(`computador`).innerText = texto
+        }
+        function resultado(texto){
+            document.getElementById(`resultado`).innerText = texto
+        }
+        function jogar(jogada) {
+            let jogada_computador_atual = Math.floor(Math.random() * 3) + 1;
+            let pedra = 1
+            let papel = 2
+            let tesoura = 3
+            let jogada_computador = ``
+
+            // Definindo texto da jogada do computador 
+            if(jogada_computador_atual == pedra){
+                jogada_computador = `pedra`
+            }
+            if(jogada_computador_atual == papel){
+                jogada_computador = `papel`
+            }
+            if(jogada_computador_atual == tesoura){
+                jogada_computador = `tesoura`
+            }
+            console.log(`O computador jogou`, jogada_computador)
+            jogada_computador1(jogada_computador)
+            if(jogada == jogada_computador){
+                console.log(`deu empate`);
+                resultado(`empatou`)
+            } else {
+                // if(jogada == `papel`){
+                //     console.log(`voce venceu`);
+                // }
+                // if(jogada == `tesoura`){
+                //     console.log(`voce perdeu`);
+                // }
+
+                if(jogada_computador == `pedra`){
+                    
+                    if(jogada == `papel`){
+                        console.log(`voce venceu`);
+                        resultado(`voce venceu`)
+                        
+                    }
+                    if(jogada == `tesoura`){
+                        console.log(`voce perdeu`);
+                        resultado(`voce perdeu`)
+
+                    }
+                }
+                if(jogada_computador == `papel`){
+                    if(jogada == `pedra`){
+                        console.log(`voce perdeu`);
+                        resultado(`voce perdeu`)
+
+                    }
+                    if(jogada == `tesoura`){
+                        console.log(`voce venceu`);
+                        resultado(`voce venceu`)
+
+                    }
+                    
+                }
+                if(jogada_computador == `tesoura`){
+                    if(jogada == `papel`){
+                        console.log(`voce perdeu`);
+                        resultado(`voce perdeu`)
+
+                    }
+                    if(jogada == `pedra`){
+                        console.log(`voce venceu`);
+                        resultado(`voce venceu`)
+
+                    }
+                }
+            }
+           
+        }
+    </script>
+</body>
+</html>
